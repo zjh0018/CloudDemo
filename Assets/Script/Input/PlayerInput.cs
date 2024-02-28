@@ -45,10 +45,18 @@ public class PlayerInput : MonoBehaviour
         yield return waitJumpInputBufferTime;
         JumpInputBuffer = false;
     }
+    private void Update()
+    {
 
+            D = Down;
+
+        
+    }
     public bool JumpInputBuffer { get; set; }
-    public bool Jump => PIA.PlayerActions.Jump.WasPressedThisFrame();
-    public bool StopJump => PIA.PlayerActions.Jump.WasReleasedThisFrame();
+    public bool Down => PIA.PlayerActions.Down.IsPressed();
+    public bool D;
+    public bool Jump => !Down && PIA.PlayerActions.Jump.WasPressedThisFrame();
+    public bool StopJump => !Down && PIA.PlayerActions.Jump.WasReleasedThisFrame();
     public bool Dash => PIA.PlayerActions.Dash.WasPressedThisFrame();
     Vector2 MoveX => PIA.PlayerActions.MoveX.ReadValue<Vector2>();
     public float AxisX => MoveX.x;

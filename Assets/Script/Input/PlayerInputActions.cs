@@ -53,6 +53,15 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Down"",
+                    ""type"": ""Button"",
+                    ""id"": ""36b91679-4dd4-4044-a004-d260c8e4f5f4"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -132,6 +141,39 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""action"": ""Dash"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""One Modifier"",
+                    ""id"": ""2060e205-959e-44fb-a0b1-41716a15982b"",
+                    ""path"": ""OneModifier"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Down"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""modifier"",
+                    ""id"": ""5bf76740-f083-4a2a-8180-3dc4a1c64ee0"",
+                    ""path"": ""<Keyboard>/s"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Down"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""binding"",
+                    ""id"": ""15fc17ac-885f-4c72-bfe5-bd202f5f5556"",
+                    ""path"": ""<Keyboard>/space"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Down"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
                 }
             ]
         }
@@ -143,6 +185,7 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         m_PlayerActions_MoveX = m_PlayerActions.FindAction("MoveX", throwIfNotFound: true);
         m_PlayerActions_Jump = m_PlayerActions.FindAction("Jump", throwIfNotFound: true);
         m_PlayerActions_Dash = m_PlayerActions.FindAction("Dash", throwIfNotFound: true);
+        m_PlayerActions_Down = m_PlayerActions.FindAction("Down", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -207,6 +250,7 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
     private readonly InputAction m_PlayerActions_MoveX;
     private readonly InputAction m_PlayerActions_Jump;
     private readonly InputAction m_PlayerActions_Dash;
+    private readonly InputAction m_PlayerActions_Down;
     public struct PlayerActionsActions
     {
         private @PlayerInputActions m_Wrapper;
@@ -214,6 +258,7 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         public InputAction @MoveX => m_Wrapper.m_PlayerActions_MoveX;
         public InputAction @Jump => m_Wrapper.m_PlayerActions_Jump;
         public InputAction @Dash => m_Wrapper.m_PlayerActions_Dash;
+        public InputAction @Down => m_Wrapper.m_PlayerActions_Down;
         public InputActionMap Get() { return m_Wrapper.m_PlayerActions; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -232,6 +277,9 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
             @Dash.started += instance.OnDash;
             @Dash.performed += instance.OnDash;
             @Dash.canceled += instance.OnDash;
+            @Down.started += instance.OnDown;
+            @Down.performed += instance.OnDown;
+            @Down.canceled += instance.OnDown;
         }
 
         private void UnregisterCallbacks(IPlayerActionsActions instance)
@@ -245,6 +293,9 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
             @Dash.started -= instance.OnDash;
             @Dash.performed -= instance.OnDash;
             @Dash.canceled -= instance.OnDash;
+            @Down.started -= instance.OnDown;
+            @Down.performed -= instance.OnDown;
+            @Down.canceled -= instance.OnDown;
         }
 
         public void RemoveCallbacks(IPlayerActionsActions instance)
@@ -267,5 +318,6 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         void OnMoveX(InputAction.CallbackContext context);
         void OnJump(InputAction.CallbackContext context);
         void OnDash(InputAction.CallbackContext context);
+        void OnDown(InputAction.CallbackContext context);
     }
 }
